@@ -90,3 +90,6 @@ MP3_FILE="/path/to/audio/input.mp3"; WAV_FILE="/path/to/audio/output.wav"; ffmpe
 - The `rm "$WAV_FILE"` command deletes the WAV file after the transcription is done.
 
 This setup allows you to transcribe audio files quickly and efficiently, even if they are not initially in the required WAV format.
+
+## Credits
+This script was written by ChatGPT and is based on content adapted from a tutorial on installing Whisper on macOS by Egor Menyaylo, which can be found in the Medium article [here](https://medium.com/gimz/how-to-install-whisper-on-mac-openais-speech-to-text-recognition-system-1f6709db6010). I've made a few tweaks.
