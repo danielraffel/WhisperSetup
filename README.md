@@ -2,6 +2,8 @@
 
 WhisperSetup is a streamlined script designed to quickly set up and compile [whisper.cpp](https://github.com/ggerganov/whisper.cpp), enabling high-performance speech-to-text transcription on macOS, particularly optimized for Apple Silicon. This script automates the installation of necessary dependencies, downloads the required models, and builds the project with Core ML support if applicable.
 
+**Tip:** If your audio files are not in WAV format, you can easily [convert them using `ffmpeg`](#converting-mp3-to-wav-and-transcribing).
+
 ## Features
 
 - **Automatic Setup:** Clone and navigate to the whisper.cpp repository automatically.
