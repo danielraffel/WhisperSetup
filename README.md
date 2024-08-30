@@ -46,17 +46,23 @@ WhisperSetup is a streamlined script designed to quickly set up and compile [whi
    - Build the `whisper.cpp` project with or without Core ML support based on your system architecture.
    - Install `ffmpeg` for converting audio files to WAV format.
 
-3. **Transcribe Audio Files**
+## Usage
 
-After the setup is complete, you can start transcribing audio files with `whisper.cpp`:
+Once installed, `whisper.cpp` can be used to transcribe any supported audio file by providing the model and the audio file as inputs:
 
 ```bash
 ./main -m ~/whisper.cpp/models/ggml-base.en.bin -f /path/to/your/audio.wav
 ```
 
+For more detailed usage instructions and additional options, refer to the official [whisper.cpp repository](https://github.com/ggerganov/whisper.cpp).
+
+## Transcribing Audio Files
+
+### Preparing Audio Files for Transcription
+
 **Note:** Ensure your audio files are in WAV format, as `whisper.cpp` currently only supports 16-bit WAV files.
 
-#### Converting MP3 to WAV and Transcribing
+### Converting MP3 to WAV and Transcribing
 
 If your audio file is in a different format, such as MP3, you can convert it to the required 16-bit WAV format using `ffmpeg`. Here's how you can do it all in one command:
 
@@ -71,9 +77,9 @@ MP3_FILE="/path/to/audio/input.mp3"; WAV_FILE="/path/to/audio/output.wav"; ffmpe
 - `ffmpeg`: Converts the MP3 file to WAV format with the correct sample rate (16,000 Hz).
 - `./main`: Runs the transcription on the converted WAV file using the specified model.
 
-#### Optional: Converting MP3 to WAV and Transcribing then Automatically Deleting the WAV File After Transcription
+### Optional: Automatically Delete the WAV File After Transcription
 
-If you want to automatically delete the WAV file after the transcription is complete, you can add the following flag:
+If you want to automatically delete the WAV file after the transcription is complete, you can add the following command:
 
 ```bash
 MP3_FILE="/path/to/audio/input.mp3"; WAV_FILE="/path/to/audio/output.wav"; ffmpeg -i "$MP3_FILE" -ar 16000 "$WAV_FILE" && ./main -m ~/whisper.cpp/models/ggml-base.en.bin -f "$WAV_FILE" && rm "$WAV_FILE"
@@ -82,13 +88,3 @@ MP3_FILE="/path/to/audio/input.mp3"; WAV_FILE="/path/to/audio/output.wav"; ffmpe
 - The `rm "$WAV_FILE"` command deletes the WAV file after the transcription is done.
 
 This setup allows you to transcribe audio files quickly and efficiently, even if they are not initially in the required WAV format.
-
-## Usage
-
-Once installed, `whisper.cpp` can be used to transcribe any supported audio file by providing the model and the audio file as inputs:
-
-```bash
-./main -m ~/whisper.cpp/models/ggml-base.en.bin -f /path/to/your/audio.wav
-```
-
-For more detailed usage instructions and additional options, refer to the official [whisper.cpp repository](https://github.com/ggerganov/whisper.cpp).
