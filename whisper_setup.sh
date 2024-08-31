@@ -14,6 +14,14 @@ is_apple_silicon() {
     fi
 }
 
+# Function to update Homebrew and its packages
+update_homebrew() {
+    echo "Updating Homebrew..."
+    brew update
+    echo "Upgrading Homebrew packages..."
+    brew upgrade
+}
+
 # Step 1: Clone the whisper.cpp repository
 echo "Cloning whisper.cpp repository..."
 git clone https://github.com/ggerganov/whisper.cpp.git ~/whisper.cpp
@@ -21,14 +29,19 @@ git clone https://github.com/ggerganov/whisper.cpp.git ~/whisper.cpp
 # Step 2: Navigate to the whisper.cpp directory
 cd ~/whisper.cpp || { echo "Failed to navigate to the whisper.cpp directory"; exit 1; }
 
-# Step 3: Install Homebrew if not already installed
+# Step 3: Install or update Homebrew
 if ! command_exists brew; then
     echo "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     echo "Running additional Homebrew commands..."
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    if is_apple_silicon; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
 else
     echo "Homebrew is already installed"
+    update_homebrew
 fi
 
 # Step 4: Download the large English model
@@ -48,13 +61,15 @@ if is_apple_silicon; then
 fi
 
 # Step 7: Build whisper.cpp
+echo "Cleaning previous build..."
+make clean
+
 if is_apple_silicon; then
     echo "Building whisper.cpp with Core ML support..."
-    make clean
     WHISPER_COREML=1 make -j
 else
-    echo "Building whisper.cpp..."
-    make
+    echo "Building whisper.cpp on Intel Mac..."
+    WHISPER_NO_METAL=true make -j
 fi
 
 # Step 8: Install ffmpeg for file conversion
